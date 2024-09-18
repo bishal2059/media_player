@@ -4,7 +4,7 @@
 
 Use Qt installer or build the Qt using the source code.
 
-#### To download Qt installer use the [link]()
+#### To download Qt installer use the [link](http://www.qt.io/download/)
 
 To install:
 
