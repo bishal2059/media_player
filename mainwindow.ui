@@ -27,11 +27,12 @@
      <string notr="true">QGroupBox{
 border-radius: 2px;
 border: 1px solid black;
+background-color:black;
 
 }</string>
     </property>
     <property name="title">
-     <string>GroupBox</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_pause_play">

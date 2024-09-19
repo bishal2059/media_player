@@ -8,6 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     Player = new QMediaPlayer();
+    audioOutput = new QAudioOutput();
+
+    Player->setAudioOutput(audioOutput);
 
     ui->pushButton_pause_play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     ui->pushButton_stop->setIcon(style()->standardIcon(QStyle::SP_MediaStop));
@@ -18,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->horizontalSlider_volume->setMaximum(100);
     ui->horizontalSlider_volume->setValue(30);
 
-    Player->setVolume(ui->horizontalSlider_volume->value());
+    audioOutput->setVolume(ui->horizontalSlider_volume->value());
 }
 
 MainWindow::~MainWindow()
@@ -29,7 +32,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionOpen_Video_triggered()
 {
 
-    QString FileName = QFileDialog::getOpenFileName(this, tr("Open Video") , "" , tr("MP4 Files (.mp4)"));
+    QString FileName = QFileDialog::getOpenFileName(this, tr("Open Video File") , "" , tr("MP4 Files (*.mp4)"));
 
     Video = new QVideoWidget();
 
@@ -39,7 +42,7 @@ void MainWindow::on_actionOpen_Video_triggered()
 
     Player->setVideoOutput(Video);
 
-    Player->setMedia(QUrl(FileName));
+    Player->setSource(QUrl(FileName));
 
     Video->setVisible(true);
     Video->show();
@@ -96,14 +99,14 @@ void MainWindow::on_pushButton_seek_forward_clicked()
 void MainWindow::on_pushButton_volume_clicked()
 {
 
-    if(Is_Muted == False){
+    if(Is_Muted == false){
         Is_Muted =true;
         ui->pushButton_volume->setIcon(style()->standardIcon(QStyle::SP_MediaVolumeMuted));
-        Player->setMuted(true);
+        audioOutput->setMuted(true);
     }else{
         Is_Muted =false;
         ui->pushButton_volume->setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
-        Player->setMuted(false);
+        audioOutput->setMuted(false);
     }
 }
 
@@ -111,6 +114,6 @@ void MainWindow::on_pushButton_volume_clicked()
 void MainWindow::on_horizontalSlider_volume_valueChanged(int value)
 {
 
-    Player->setVolume(value);
+    audioOutput->setVolume(value);
 }
 
