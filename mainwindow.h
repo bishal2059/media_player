@@ -42,8 +42,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QMediaPlayer *player;
-    QVideoWidget *video;
+    QMediaPlayer *Player;
+    QVideoWidget *Video;
     qint64 nDuration;
     bool Is_Pause = true;
     bool Is_Muted =false;

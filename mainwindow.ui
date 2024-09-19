@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QGroupBox" name="groupBox_Video">
     <property name="geometry">
      <rect>
       <x>10</x>
