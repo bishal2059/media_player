@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     Player->setAudioOutput(audioOutput);
 
-    ui->pushButton_pause_play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
+    ui->pushButton_pause_play->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
     ui->pushButton_stop->setIcon(style()->standardIcon(QStyle::SP_MediaStop));
     ui->pushButton_seek_backward->setIcon(style()->standardIcon(QStyle::SP_MediaSeekBackward));
     ui->pushButton_seek_forward->setIcon(style()->standardIcon(QStyle::SP_MediaSeekForward));
@@ -43,9 +43,11 @@ void MainWindow::on_actionOpen_Video_triggered()
     Player->setVideoOutput(Video);
 
     Player->setSource(QUrl(FileName));
-
     Video->setVisible(true);
     Video->show();
+    Player->play();
+
+    VideoFileFound = true;
 }
 
 
@@ -55,8 +57,9 @@ void MainWindow::on_horizontalSlider_Duration_valueChanged(int value)
 }
 
 
-void MainWindow::on_pushButton_pause_play_toggled(bool checked)
+void MainWindow::on_pushButton_pause_play_clicked()
 {
+    if(VideoFileFound){
 
     if(Is_Pause == true){
         Player->play();
@@ -68,31 +71,36 @@ void MainWindow::on_pushButton_pause_play_toggled(bool checked)
         Is_Pause = true;
         ui->pushButton_pause_play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     }
-
+    }
 }
 
 
 void MainWindow::on_pushButton_stop_clicked()
 {
 
+    if(VideoFileFound){
     Player->stop();
-
+    }
 }
 
 
 void MainWindow::on_pushButton_seek_backward_clicked()
 {
-    ui->horizontalSlider_Duration->setValue(ui->horizontalSlider_Duration->value() -20);
+    if(VideoFileFound){
+    ui->horizontalSlider_Duration->setValue(ui->horizontalSlider_Duration->value() -5);
     Player->setPosition(ui->horizontalSlider_Duration->value() * 1000);
-
+    }
 }
 
 
 void MainWindow::on_pushButton_seek_forward_clicked()
 {
+    if(VideoFileFound){
 
-      ui->horizontalSlider_Duration->setValue(ui->horizontalSlider_Duration->value() + 20);
 
+      ui->horizontalSlider_Duration->setValue(ui->horizontalSlider_Duration->value() + 5);
+      Player->setPosition(ui->horizontalSlider_Duration->value() * 1000);
+    }
 }
 
 

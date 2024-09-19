@@ -26,7 +26,7 @@ private slots:
 
     void on_horizontalSlider_Duration_valueChanged(int value);
 
-    void on_pushButton_pause_play_toggled(bool checked);
+    void on_pushButton_pause_play_clicked();
 
     void on_pushButton_stop_clicked();
 
@@ -46,6 +46,7 @@ private:
     qint64 nDuration;
     bool Is_Pause = true;
     bool Is_Muted =false;
+    bool VideoFileFound = false;
 };
 
 #endif // MAINWINDOW_H
