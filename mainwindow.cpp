@@ -28,6 +28,11 @@ MainWindow::MainWindow(QWidget *parent)
                                    QAudio::LinearVolumeScale);
 
     audioOutput->setVolume(qRound(volume *100));
+
+    connect(Player, &QMediaPlayer::durationChanged,this,&MainWindow::durationChanged);
+    connect(Player, &QMediaPlayer::positionChanged,this,&MainWindow::positionChanged);
+
+    ui->horizontalSlider_Duration->setRange(0, Player->duration()/1000);
 }
 
 MainWindow::~MainWindow()
