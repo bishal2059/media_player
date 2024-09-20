@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     Player->setAudioOutput(audioOutput);
 
+    this->setWindowTitle("Media Player");
+
     ui->pushButton_pause_play->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
     ui->pushButton_stop->setIcon(style()->standardIcon(QStyle::SP_MediaStop));
     ui->pushButton_seek_backward->setIcon(style()->standardIcon(QStyle::SP_MediaSeekBackward));
@@ -21,12 +23,54 @@ MainWindow::MainWindow(QWidget *parent)
     ui->horizontalSlider_volume->setMaximum(100);
     ui->horizontalSlider_volume->setValue(30);
 
-    audioOutput->setVolume(ui->horizontalSlider_volume->value());
+    qreal volume = QAudio::convertVolume(ui->horizontalSlider_volume->value() / qreal(100.0),
+                                   QAudio::LogarithmicVolumeScale,
+                                   QAudio::LinearVolumeScale);
+
+    audioOutput->setVolume(qRound(volume *100));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::durationChanged(qint64 duration)
+{
+    mDuration = duration / 1000;
+    ui->horizontalSlider_Duration->setMaximum(mDuration);
+
+}
+
+void MainWindow::positionChanged(qint64 duration)
+{
+
+    if(!ui->horizontalSlider_Duration->isSliderDown()){
+
+        ui->horizontalSlider_Duration->setValue(duration/1000);
+    }
+
+    updateDuration(duration / 1000);
+}
+
+void MainWindow::updateDuration(qint64 Duration)
+{
+    if(Duration || mDuration){
+
+        QTime CurrentTime((Duration / 3600)%60,(Duration / 60) % 60,Duration % 60,(Duration * 1000) % 1000);
+        QTime totalTime((mDuration / 3600)%60,(mDuration / 60) % 60,mDuration % 60 ,(mDuration * 1000) % 1000);
+        QString Format = "";
+        if (mDuration > 3600){
+            Format = "hh:mm:ss";
+        }else{
+            Format = "mm:ss";
+        }
+
+        ui->label_current_time->setText(CurrentTime.toString(Format));
+        ui->label_total_time->setText(totalTime.toString(Format));
+
+    }
+
 }
 
 void MainWindow::on_actionOpen_Video_triggered()
@@ -121,7 +165,15 @@ void MainWindow::on_pushButton_volume_clicked()
 
 void MainWindow::on_horizontalSlider_volume_valueChanged(int value)
 {
+    // volume = value;
+    // audioOutput->setVolume(volume);
 
-    audioOutput->setVolume(value);
+    qreal volume = QAudio::convertVolume(value / qreal(100.0),
+                                   QAudio::LogarithmicVolumeScale,
+                                   QAudio::LinearVolumeScale);
+
+    audioOutput->setVolume(qRound(volume *100));
 }
+
+
 

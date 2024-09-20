@@ -22,6 +22,8 @@ public:
     ~MainWindow();
 
 private slots:
+    void durationChanged(qint64 duration);
+    void positionChanged(qint64 duration);
     void on_actionOpen_Video_triggered();
 
     void on_horizontalSlider_Duration_valueChanged(int value);
@@ -43,10 +45,12 @@ private:
     QMediaPlayer *Player;
     QAudioOutput *audioOutput;
     QVideoWidget *Video;
-    qint64 nDuration;
+    qint64 mDuration;
     bool Is_Pause = true;
     bool Is_Muted =false;
     bool VideoFileFound = false;
+
+    void updateDuration(qint64 Duration);
 };
 
 #endif // MAINWINDOW_H
