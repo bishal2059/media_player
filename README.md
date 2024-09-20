@@ -18,7 +18,7 @@ and follow the install process.
 
 #### Installed location:
 
-##### In Linux system: /opt/Qt
+##### In Linux system: /opt/Qt or ~/Qt
 
 ### To run it locally:
 
@@ -30,6 +30,8 @@ mkdir cmake-build-debug
 cd cmake-build-debug
 
 cmake ..
+
+cmake --build .
 
 ```
 
